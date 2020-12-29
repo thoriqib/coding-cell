@@ -179,8 +179,7 @@ class Webhook extends Controller
                 }
                 $carouselTemplateBuilder = new CarouselTemplateBuilder($carouselData);
                 $templateMessage = new TemplateMessageBuilder('nama template', $carouselTemplateBuilder);
-                $result = $this->bot->replyMessage($event['replyToken'], $templateMessage);
-                return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+                $this->bot->replyMessage($event['replyToken'], $templateMessage);
             } else if (count($gadget == 1)) {
                 $gadgetData = $gadget[0];
                 $text = "$gadgetData->harga\n$gadgetData->deskripsi";
@@ -192,8 +191,7 @@ class Webhook extends Controller
                     [new UriTemplateActionBuilder('Spesifikasi Lengkap', "https://www.gsmarena.com/res.php3?sSearch=$searchGSMArena")]
                 );
                 $templateMessage = new TemplateMessageBuilder('nama template', $buttonTemplateBuilder);
-                $result = $this->bot->replyMessage($event['replyToken'], $templateMessage);
-                return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+                $this->bot->replyMessage($event['replyToken'], $templateMessage);
             }
         } else {
             $message = "Gadget yang kamu cari tidak ada di database kami";
@@ -204,8 +202,7 @@ class Webhook extends Controller
             $multiMessageBuilder->add($textMessageBuilder);
             $multiMessageBuilder->add($stickerMessageBuilder);
 
-            $result = $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
-            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+            $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
         }
     }
 }
