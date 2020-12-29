@@ -107,15 +107,16 @@ class Webhook extends Controller
                 if (!$this->user) $this->followCallback($event);
                 else {
                     // respond event
-                    if ($event['type'] == 'message') {
-                        if (method_exists($this, $event['message']['type'] . 'Message')) {
-                            $this->{$event['message']['type'] . 'Message'}($event);
-                        }
-                    } else {
-                        if (method_exists($this, $event['type'] . 'Callback')) {
-                            $this->{$event['type'] . 'Callback'}($event);
-                        }
-                    }
+                    // if ($event['type'] == 'message') {
+                    //     if (method_exists($this, $event['message']['type'] . 'Message')) {
+                    //         $this->{$event['message']['type'] . 'Message'}($event);
+                    //     }
+                    // } else {
+                    //     if (method_exists($this, $event['type'] . 'Callback')) {
+                    //         $this->{$event['type'] . 'Callback'}($event);
+                    //     }
+                    // }
+                    $this->searchGadget($event);
                 }
             }
         }
@@ -162,7 +163,6 @@ class Webhook extends Controller
 
         $gadget = $this->gadgetGateway->getGadget($userMessage);
 
-        $gadget = null;
         if ($gadget != null) {
             if (count($gadget) > 1) {
                 $carouselData = array();
@@ -180,6 +180,7 @@ class Webhook extends Controller
                 $carouselTemplateBuilder = new CarouselTemplateBuilder($carouselData);
                 $templateMessage = new TemplateMessageBuilder('nama template', $carouselTemplateBuilder);
                 $result = $this->bot->replyMessage($event['replyToken'], $templateMessage);
+                return $result->getHTTPStatus() . ' ' . $result->getRawBody();
             } else if (count($gadget == 1)) {
                 $gadgetData = $gadget[0];
                 $text = "$gadgetData->harga\n$gadgetData->deskripsi";
@@ -192,6 +193,7 @@ class Webhook extends Controller
                 );
                 $templateMessage = new TemplateMessageBuilder('nama template', $buttonTemplateBuilder);
                 $result = $this->bot->replyMessage($event['replyToken'], $templateMessage);
+                return $result->getHTTPStatus() . ' ' . $result->getRawBody();
             }
         } else {
             $message = "Gadget yang kamu cari tidak ada di database kami";
@@ -202,7 +204,8 @@ class Webhook extends Controller
             $multiMessageBuilder->add($textMessageBuilder);
             $multiMessageBuilder->add($stickerMessageBuilder);
 
-            $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+            $result = $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
         }
     }
 }
