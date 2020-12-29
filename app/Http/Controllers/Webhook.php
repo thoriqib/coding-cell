@@ -159,10 +159,10 @@ class Webhook extends Controller
     private function searchGadget($event)
     {
         $userMessage = $event['message']['text'];
-        $gadget = null;
 
         $gadget = $this->gadgetGateway->getGadget($userMessage);
 
+        $gadget = null;
         if ($gadget != null) {
             if (count($gadget) > 1) {
                 $carouselData = array();
