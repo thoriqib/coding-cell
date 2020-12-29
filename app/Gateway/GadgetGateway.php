@@ -25,7 +25,7 @@ class GadgetGateway
             ->get();
 
         if ($gadget) {
-            return $gadget;
+            return (array) $gadget;
         }
 
         return null;

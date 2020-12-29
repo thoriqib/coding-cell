@@ -167,30 +167,30 @@ class Webhook extends Controller
             if (count($gadget) > 1) {
                 $carouselData = array();
                 foreach ($gadget as $g) {
-                    $text = "$g->harga\n$g->deskripsi";
-                    $searchGSMArena = str_replace(" ", "+", $g->nama);
+                    $text = $g['harga'] . "\n" . $g['deskripsi'];
+                    $searchGSMArena = str_replace(" ", "+", $g['nama']);
                     $template = new CarouselColumnTemplateBuilder(
-                        $g->nama,
+                        $g['nama'],
                         $text,
-                        $g->image,
+                        $g['image'],
                         [new UriTemplateActionBuilder('Spesifikasi Lengkap', "https://www.gsmarena.com/res.php3?sSearch=$searchGSMArena")]
                     );
                     array_push($carouselData, $template);
                 }
                 $carouselTemplateBuilder = new CarouselTemplateBuilder($carouselData);
-                $templateMessage = new TemplateMessageBuilder('nama template', $carouselTemplateBuilder);
+                $templateMessage = new TemplateMessageBuilder('carousel template', $carouselTemplateBuilder);
                 $this->bot->replyMessage($event['replyToken'], $templateMessage);
             } else if (count($gadget == 1)) {
                 $gadgetData = $gadget[0];
-                $text = "$gadgetData->harga\n$gadgetData->deskripsi";
-                $searchGSMArena = str_replace(" ", "+", $gadgetData->nama);
+                $text = $gadgetData['harga'] . "\n" . $gadgetData['deskripsi'];
+                $searchGSMArena = str_replace(" ", "+", $gadgetData['nama']);
                 $buttonTemplateBuilder = new ButtonTemplateBuilder(
-                    $gadgetData->nama,
+                    $gadgetData['nama'],
                     $text,
-                    $gadgetData->image,
+                    $gadgetData['image'],
                     [new UriTemplateActionBuilder('Spesifikasi Lengkap', "https://www.gsmarena.com/res.php3?sSearch=$searchGSMArena")]
                 );
-                $templateMessage = new TemplateMessageBuilder('nama template', $buttonTemplateBuilder);
+                $templateMessage = new TemplateMessageBuilder('button template', $buttonTemplateBuilder);
                 $this->bot->replyMessage($event['replyToken'], $templateMessage);
             }
         } else {
