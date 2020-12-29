@@ -159,6 +159,7 @@ class Webhook extends Controller
     private function searchGadget($event)
     {
         $userMessage = $event['message']['text'];
+        $gadget = null;
 
         $gadget = $this->gadgetGateway->getGadget($userMessage);
 
@@ -168,7 +169,12 @@ class Webhook extends Controller
                 foreach ($gadget as $g) {
                     $text = "$g->harga\n$g->deskripsi";
                     $searchGSMArena = str_replace(" ", "+", $g->nama);
-                    $template = new CarouselColumnTemplateBuilder($g->nama, $text, $g->image, [new UriTemplateActionBuilder('Spesifikasi Lengkap', "https://www.gsmarena.com/res.php3?sSearch=$searchGSMArena")]);
+                    $template = new CarouselColumnTemplateBuilder(
+                        $g->nama,
+                        $text,
+                        $g->image,
+                        [new UriTemplateActionBuilder('Spesifikasi Lengkap', "https://www.gsmarena.com/res.php3?sSearch=$searchGSMArena")]
+                    );
                     array_push($carouselData, $template);
                 }
                 $carouselTemplateBuilder = new CarouselTemplateBuilder($carouselData);
