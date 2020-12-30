@@ -161,8 +161,9 @@ class Webhook extends Controller
     {
         $userMessage = $event['message']['text'];
 
+        $userMessage = 'xiaomi';
         $gadget = $this->gadgetGateway->getGadget($userMessage);
-
+        dd($gadget);
         if ($gadget != null) {
             if (count($gadget) > 1) {
                 $carouselData = array();
