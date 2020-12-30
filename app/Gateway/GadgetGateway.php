@@ -19,7 +19,7 @@ class GadgetGateway
     // Question
     function getGadget($nama)
     {
-        $gadget = $this->db->table('questions')
+        $gadget = $this->db->table('gadget')
             ->where('nama', 'like', "%$nama%")
             ->orWhere('brand', 'like', "%$nama%")
             ->get();
