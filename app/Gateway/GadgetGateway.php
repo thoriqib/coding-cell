@@ -22,7 +22,7 @@ class GadgetGateway
         $gadget = $this->db->table('gadget')
             ->where('nama', 'like', "%$nama%")
             ->orWhere('brand', 'like', "%$nama%")
-            ->get();
+            ->dd();
 
         if ($gadget) {
             return (array) $gadget;
